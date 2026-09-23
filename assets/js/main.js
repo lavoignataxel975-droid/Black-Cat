@@ -67,9 +67,12 @@
               <div class="cat__inner"><div class="cat__list">
                 ${c.items.map((it) => `
                   <div class="item">
-                    <div class="item__name">${esc(it.name)}</div>
-                    <div class="item__price">${esc(it.price)}</div>
-                    ${it.desc ? `<div class="item__desc">${esc(it.desc)}</div>` : ''}
+                    <div class="item__top">
+                      <span class="item__name">${esc(it.name)}</span>
+                      <i class="item__dots" aria-hidden="true"></i>
+                      ${it.price ? `<span class="item__price">${esc(it.price)}</span>` : ''}
+                    </div>
+                    ${it.desc ? `<p class="item__desc">${esc(it.desc)}</p>` : ''}
                   </div>`).join('')}
               </div></div>
             </div>
@@ -102,7 +105,34 @@
   /* ---------- Événements ---------- */
   const eventsRoot = document.querySelector('[data-events-root]');
   if (eventsRoot && window.BC_EVENTS) {
-    eventsRoot.innerHTML = window.BC_EVENTS.map((ev) => `
+    const heroRoot = document.querySelector('[data-event-hero]');
+    const labelRoot = document.querySelector('[data-events-label]');
+
+    // Reconstruit une vraie date à partir du jour et du mois saisis en texte,
+    // afin de savoir lequel est le prochain à venir.
+    const MOIS = { jan: 0, fev: 1, mar: 2, avr: 3, mai: 4, juin: 5, juil: 6, aou: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+    const dateDe = (ev) => {
+      const k = String(ev.month || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+      const mi = k.slice(0, 4) in MOIS ? MOIS[k.slice(0, 4)] : MOIS[k.slice(0, 3)];
+      if (mi === undefined) return null;
+      const t = /(\d{1,2})\s*h\s*(\d{0,2})/.exec(ev.time || '');
+      const now = new Date();
+      const d = new Date(now.getFullYear(), mi, parseInt(ev.day, 10), t ? +t[1] : 20, t && t[2] ? +t[2] : 0);
+      // Une date dépassée de plus de six mois désigne l'année suivante.
+      if (d - now < -1000 * 60 * 60 * 24 * 180) d.setFullYear(now.getFullYear() + 1);
+      return d;
+    };
+
+    const minuit = new Date();
+    minuit.setHours(0, 0, 0, 0);
+
+    // Index du premier événement encore à venir (sinon aucun : on garde la liste telle quelle).
+    const iNext = window.BC_EVENTS.findIndex((ev) => {
+      const d = dateDe(ev);
+      return d && new Date(d.getFullYear(), d.getMonth(), d.getDate()) >= minuit;
+    });
+
+    const carte = (ev) => `
       <article class="event">
         <div class="event__date">
           <span class="event__day">${esc(ev.day)}</span>
@@ -114,7 +144,38 @@
         <h3 class="event__title t-title">${esc(ev.title)}</h3>
         <p class="event__desc">${esc(ev.desc)}</p>
         <div class="event__time">${esc(ev.time)}</div>
-      </article>`).join('');
+      </article>`;
+
+    if (heroRoot && iNext >= 0) {
+      const ev = window.BC_EVENTS[iNext];
+      const d = dateDe(ev);
+      const jours = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - minuit) / 86400000);
+      const accroche = jours === 0 ? "Aujourd'hui" : jours === 1 ? 'Demain' : 'Prochaine date';
+
+      heroRoot.innerHTML = `
+        <div class="event-hero__date">
+          <span class="event-hero__eyebrow">${esc(accroche)}</span>
+          <span class="event-hero__day">${esc(ev.day)}</span>
+          <span class="event-hero__when">${esc(`${ev.weekday} ${ev.day} ${ev.month} · ${ev.time}`)}</span>
+        </div>
+        <div class="event-hero__body">
+          <h2 class="event-hero__title t-title">${esc(ev.title)}</h2>
+          <p class="event-hero__desc">${esc(ev.desc)}</p>
+          <div class="event-hero__cta">
+            <a class="btn-cta" href="reserver.html">Réserver une table →</a>
+            <a class="btn-outline" href="https://www.instagram.com/theblackcat_mtp/" target="_blank" rel="noopener">Suivre sur Instagram</a>
+          </div>
+        </div>`;
+      heroRoot.hidden = false;
+    }
+
+    // Le rail garde toutes les autres dates, dans l'ordre d'origine.
+    const reste = window.BC_EVENTS.filter((_, i) => i !== iNext || iNext < 0);
+    eventsRoot.innerHTML = reste.map(carte).join('');
+
+    if (labelRoot) labelRoot.hidden = !(heroRoot && iNext >= 0 && reste.length);
+    const hint = document.querySelector('.events-hint');
+    if (hint) hint.hidden = reste.length < 2;
   }
 
   /* ---------- Réserver : lien externe + formulaire mailto ---------- */

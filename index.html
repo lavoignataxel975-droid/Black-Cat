@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Black Cat — Bar · Restaurant · Montpellier</title>
+<meta name="description" content="The Black Cat, pub gothique avec billard au 20 Rue de Candolle à Montpellier. Cocktails, bières, tapas et burgers.">
+<meta name="theme-color" content="#0c0b0b">
+<link rel="icon" type="image/png" href="assets/img/logo-header.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="is-home">
+
+<header class="site-header">
+  <a class="site-header__logo" href="index.html" aria-label="The Black Cat — accueil">
+    <img src="assets/img/logo-header.png" alt="The Black Cat" width="52" height="44">
+  </a>
+  <a class="site-header__title t-title" href="index.html">The Black Cat</a>
+  <div class="site-header__actions">
+    <a class="pill pill--book" href="reserver.html">Réserver</a>
+    <button class="pill" type="button" data-menu-toggle aria-controls="menu" aria-expanded="false">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span data-menu-label>Menu</span>
+    </button>
+  </div>
+</header>
+
+<nav class="menu-overlay" id="menu" aria-label="Navigation principale">
+  <div class="menu-links">
+    <a class="t-title" href="index.html" aria-current="page">Accueil</a>
+    <a class="t-title" href="le-bar.html">Le Bar</a>
+    <a class="t-title" href="carte.html">La Carte</a>
+    <a class="t-title" href="evenement.html">Événement</a>
+    <a class="t-title" href="reserver.html">Réserver</a>
+  </div>
+  <div class="menu-photo"><img src="assets/img/plats.png" alt="Les plats du Black Cat" loading="lazy"></div>
+</nav>
+
+<main>
+  <section class="stack-panel hero" id="hero" aria-label="Accueil">
+    <div class="hero__layer hero__grid"></div>
+    <div class="hero__layer hero__beam"></div>
+    <div class="hero__layer hero__pillar hero__pillar--l"></div>
+    <div class="hero__layer hero__pillar hero__pillar--r"></div>
+    <div class="hero__layer hero__smoke" data-smoke aria-hidden="true"></div>
+    <div class="hero__layer hero__vignette"></div>
+    <img class="hero__cat" src="assets/img/chat.png" alt="" width="1448" height="1086">
+    <div class="hero__text">
+      <h1 class="hero__title t-title">The Black Cat</h1>
+      <div class="hero__tagline">Bar · Restaurant · Montpellier</div>
+    </div>
+  </section>
+
+  <section class="stack-panel panel panel--bar">
+    <div class="panel__hint" aria-hidden="true">Défiler vers le bas ↓</div>
+    <a class="panel__link" href="le-bar.html">
+      <h2 class="panel__title t-title">Le Bar</h2>
+      <span class="panel__sub">Découvrir</span>
+    </a>
+  </section>
+
+  <section class="stack-panel panel panel--carte">
+    <a class="panel__link" href="carte.html">
+      <h2 class="panel__title t-title">La Carte</h2>
+      <span class="panel__sub">Cocktails · Bières · Shots</span>
+    </a>
+  </section>
+
+  <section class="stack-panel panel panel--events">
+    <a class="panel__link" href="evenement.html">
+      <h2 class="panel__title t-title">Événement</h2>
+      <span class="panel__sub">Découvrir</span>
+    </a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__grid">
+    <div class="site-footer__col--logo">
+      <img class="site-footer__logo" src="assets/img/logo-footer.png" alt="The Black Cat" loading="lazy">
+    </div>
+    <div class="site-footer__col--book">
+      <div class="site-footer__label">Réservations</div>
+      <a class="btn-round" href="reserver.html" data-btn>Réserver une table</a>
+    </div>
+    <div class="site-footer__col">
+      <div class="site-footer__label">Adresse</div>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=The+Black+Cat+20+Rue+de+Candolle+34000+Montpellier" target="_blank" rel="noopener">20 Rue de Candolle<br>34000 Montpellier</a>
+    </div>
+    <div class="site-footer__col">
+      <div class="site-footer__label">Horaires</div>
+      <div>Lun – Ven | 10h – 01h</div>
+      <div>Restauration le midi</div>
+      <div>Sam – Dim | 17h – 00h</div>
+    </div>
+    <div class="site-footer__col">
+      <div class="site-footer__label">Contact</div>
+      <a href="tel:+33411751972">+33 4 11 75 19 72</a><br>
+      <a href="https://www.instagram.com/theblackcat_mtp/" target="_blank" rel="noopener">Instagram · @theblackcat_mtp</a>
+    </div>
+  </div>
+  <div class="site-footer__bottom">
+    <a href="#">Mentions légales</a>
+    <a href="#">Gestion des cookies</a>
+    <span>© The Black Cat Montpellier</span>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

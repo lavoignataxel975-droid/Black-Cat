@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Contenu éditable du site — The Black Cat
+   Modifier ici : liens, carte, événements. Aucune autre modif nécessaire.
+   ========================================================================== */
+
+window.BC_CONFIG = {
+  // Lien externe de réservation (à fournir par le client). Laisser "#" tant qu'il n'existe pas.
+  bookingUrl: "#",
+  // Adresse e-mail qui reçoit le formulaire « Nous écrire » (à confirmer par le client).
+  contactEmail: "contact@theblackcat-montpellier.fr",
+};
+
+/* ---------- Événements (exemples à remplacer) ---------- */
+window.BC_EVENTS = [
+  { day: "02", month: "Oct", weekday: "Jeudi",    title: "Tournoi de billard", desc: "Inscription au comptoir, lots pour le podium.", time: "20h00" },
+  { day: "04", month: "Oct", weekday: "Samedi",   title: "DJ Set",             desc: "Rock, post-punk et new wave toute la soirée.", time: "21h00" },
+  { day: "09", month: "Oct", weekday: "Jeudi",    title: "Blind test",         desc: "En équipe, jusqu'à 6 joueurs.",               time: "20h30" },
+  { day: "16", month: "Oct", weekday: "Jeudi",    title: "Afterwork",          desc: "Happy hour prolongé sur les pintes.",         time: "18h00" },
+  { day: "23", month: "Oct", weekday: "Jeudi",    title: "Tournoi de billard", desc: "Édition mensuelle, élimination directe.",     time: "20h00" },
+  { day: "31", month: "Oct", weekday: "Vendredi", title: "Halloween",          desc: "Soirée costumée, cocktails de saison.",       time: "21h00" },
+];
+
+/* ---------- La Carte ---------- */
+window.BC_MENU = [
+  { id: "boire", title: "Pour boire", cats: [
+    { name: "Cocktails", note: "8,50 € — tous les cocktails", items: [
+      { name: "Moscow Mule & dérivés", desc: "London, Caribbean, Mexican — vodka, jus citron vert, ginger beer", price: "8,50 €" },
+      { name: "Mojito", desc: "Menthe, citron vert, cassonade, rhum blanc, bitter", price: "8,50 €" },
+      { name: "Ti Punch", desc: "Rhum blanc, citron vert, cassonade", price: "8,50 €" },
+      { name: "Caïpirinha", desc: "Cachaça, citron vert, sucre blanc", price: "8,50 €" },
+      { name: "Cosmopolitan", desc: "Vodka, triple sec, citron jaune, jus de cranberry", price: "8,50 €" },
+      { name: "Cucus", desc: "Vodka, citron vert, jus de passion, jus d'hibiscus", price: "8,50 €" },
+      { name: "Margarita", desc: "Tequila, triple sec, citron vert, sirop d'agave", price: "8,50 €" },
+      { name: "Espresso Martini", desc: "Vodka, Kahlúa, espresso", price: "8,50 €" },
+      { name: "Espresso Tiramisu", desc: "Rhum infusé café, Baileys, amaretto, espresso, cacao", price: "8,50 €" },
+      { name: "Negroni", desc: "Gin, vermouth rouge, Campari", price: "8,50 €" },
+      { name: "Aperol Spritz", desc: "Aperol, sparkling, eau gazeuse, orange", price: "8,50 €" },
+      { name: "Sex on the Beach", desc: "Vodka, crème de pêche, jus d'ananas, jus de cranberry", price: "8,50 €" },
+      { name: "Piña Colada", desc: "Rhum, crème de coco, jus d'ananas, citron vert", price: "8,50 €" },
+      { name: "Long Island", desc: "Vodka, gin, tequila, rhum, citron vert, cola", price: "8,50 €" },
+    ]},
+    { name: "Mixers", note: "", items: [
+      { name: "Jäger Bomb", desc: "", price: "8 €" },
+      { name: "Gin Tonic", desc: "", price: "7 €" },
+      { name: "Whisky Cola", desc: "", price: "7 €" },
+      { name: "Rhum Cola ou Orange", desc: "", price: "7 €" },
+      { name: "Get Perrier", desc: "", price: "7 €" },
+      { name: "Vodka au choix", desc: "Ginger beer, pomme, ananas, orange ou cranberry", price: "7 €" },
+      { name: "Vodka Energy", desc: "", price: "8 €" },
+    ]},
+    { name: "Bières pression", note: "25 cl / 50 cl / girafe 2,5 L", items: [
+      { name: "Pelforth 5,5°", desc: "Blonde de caractère, à la fois ronde et désaltérante", price: "3,20 / 5,90 / 24 €" },
+      { name: "Cap d'Habitude 4,3°", desc: "Blonde légère aux notes de malt et de fleurs", price: "3,20 / 5,90 / 24 €" },
+      { name: "Pelican Rouge 7,5°", desc: "Bière rouge ronde, gourmande et fruitée", price: "3,50 / 6,50 / 28 €" },
+      { name: "Affligem Blanche 4,8°", desc: "Blanche rafraîchissante, notes d'agrumes et d'épices", price: "3,50 / 6,50 / 28 €" },
+      { name: "Gallia Nouveau Western IPA 6°", desc: "IPA d'une microbrasserie française, notes d'agrumes et de fruits tropicaux", price: "3,80 / 7 / 30 €" },
+      { name: "Chouffe 8°", desc: "Blonde belge épicée, légèrement fruitée", price: "4 / 7,50 / 33 €" },
+      { name: "Bière du moment", desc: "Demandez au comptoir", price: "" },
+    ]},
+    { name: "Bières bouteilles", note: "33 cl", items: [
+      { name: "Mort Subite Kriek 4°", desc: "", price: "5 €" },
+      { name: "Chimay Bleue 9°", desc: "", price: "5,50 €" },
+      { name: "Chimay Rouge 7°", desc: "", price: "5,50 €" },
+      { name: "Desperados 5,9°", desc: "", price: "5,50 €" },
+      { name: "Duvel 8,5°", desc: "", price: "5,50 €" },
+      { name: "Delirium 8,5°", desc: "", price: "5,50 €" },
+      { name: "Cuvée des Trolls 7°", desc: "", price: "4,50 €" },
+      { name: "Guinness 6°", desc: "", price: "7 €" },
+      { name: "Heineken 0°", desc: "Sans alcool", price: "4,50 €" },
+      { name: "Cidre brut", desc: "", price: "4 €" },
+    ]},
+    { name: "Vins", note: "verre / bouteille", items: [
+      { name: "Blanc — Moelleux (St Luc)", desc: "", price: "3,50 / 20 €" },
+      { name: "Blanc — Chardonnay", desc: "", price: "3,50 / 20 €" },
+      { name: "Blanc — Viognier", desc: "", price: "3,50 / 20 €" },
+      { name: "Prosecco", desc: "", price: "4,80 / 24 €" },
+      { name: "Rouge — Loup dans la Bergerie", desc: "IGP Hérault", price: "4,60 / 22 €" },
+      { name: "Rosé — Petit Chaumont", desc: "IGP Sables de Camargue", price: "3,50 / 20 €" },
+    ]},
+    { name: "Apéro", note: "", items: [
+      { name: "Ricard", desc: "", price: "2,50 €" },
+      { name: "Mauresque, Perroquet, Tomate", desc: "", price: "2,70 €" },
+      { name: "Kir", desc: "", price: "3,80 €" },
+      { name: "Martini rouge / blanc", desc: "", price: "4,50 €" },
+      { name: "Baileys", desc: "", price: "6 €" },
+      { name: "Get 27", desc: "", price: "6 €" },
+    ]},
+    { name: "Rhums arrangés", note: "maison — 3,50 € le shot · 31,50 € le mètre", items: [
+      { name: "Orange / piment", desc: "", price: "3,50 €" },
+      { name: "Ananas / basilic / piment", desc: "", price: "3,50 €" },
+      { name: "Litchi / gingembre", desc: "", price: "3,50 €" },
+      { name: "Banane / café", desc: "", price: "3,50 €" },
+      { name: "Ananas / fève tonka", desc: "", price: "3,50 €" },
+      { name: "Limoncello", desc: "", price: "3,50 €" },
+    ]},
+    { name: "Gins infusés", note: "maison", items: [
+      { name: "Romarin", desc: "", price: "7,50 €" },
+      { name: "Thym", desc: "", price: "7,50 €" },
+      { name: "Lavande", desc: "", price: "7,50 €" },
+      { name: "Jasmin", desc: "", price: "7,50 €" },
+      { name: "Gin du moment", desc: "", price: "7,50 €" },
+    ]},
+    { name: "Spiritueux", note: "4 cl", items: [
+      { name: "Vodka Grey Goose", desc: "", price: "9 €" },
+      { name: "Jack Daniel's", desc: "Whiskey", price: "8 €" },
+      { name: "Jack Daniel's Single Barrel", desc: "Whiskey", price: "9 €" },
+      { name: "Bruichladdich", desc: "Whisky d'Islay", price: "12 €" },
+      { name: "Diplomático", desc: "Rhum", price: "8 €" },
+      { name: "Bombay Sapphire", desc: "Gin", price: "8 €" },
+      { name: "Hendrick's", desc: "Gin", price: "9 €" },
+    ]},
+    { name: "Shots", note: "à l'unité / le mètre", items: [
+      { name: "Tequila Paf · Mad Dog · TGV · Kiss Cool", desc: "", price: "3 € / 27 €" },
+      { name: "Orgasme · Chartreuse · Jägermeister · Baby Guinness · Diplomático", desc: "", price: "4 € / 36 €" },
+    ]},
+    { name: "Les Virgins", note: "sans alcool", items: [
+      { name: "Virgin Mojito", desc: "Fraise, pomme, mangue ou cranberry — citron vert, menthe, eau gazeuse, cassonade", price: "" },
+      { name: "Virgin Cucus", desc: "Passion, hibiscus, citron vert", price: "" },
+      { name: "Piñata", desc: "Jus d'ananas, citron vert, sirop fève de tonka", price: "" },
+    ]},
+    { name: "Softs", note: "", items: [
+      { name: "Pepsi Max · Orangina · Perrier · Ice Tea · Limonade", desc: "", price: "3,20 €" },
+      { name: "Trip CBD", desc: "", price: "4,50 €" },
+      { name: "Jus de fruits", desc: "Orange, pomme, ananas, cranberry, abricot, mangue, passion", price: "3,50 €" },
+      { name: "Diabolo", desc: "", price: "3,40 €" },
+      { name: "Sirop à l'eau", desc: "Grenadine, menthe, fraise, pêche, orgeat, violette", price: "2 €" },
+      { name: "Orange pressée", desc: "", price: "5 €" },
+    ]},
+    { name: "Boissons chaudes", note: "", items: [
+      { name: "Café · Déca", desc: "", price: "1,80 €" },
+      { name: "Américain", desc: "", price: "1,90 €" },
+      { name: "Noisette", desc: "", price: "2 €" },
+      { name: "Double · Crème", desc: "", price: "3,20 €" },
+      { name: "Thés & infusions", desc: "", price: "3,50 €" },
+      { name: "Chocolat maison", desc: "", price: "3,70 €" },
+      { name: "Cappuccino", desc: "", price: "4,20 €" },
+      { name: "Chocolat viennois · Café viennois", desc: "Chantilly", price: "4,80 €" },
+      { name: "Grog", desc: "", price: "6,80 €" },
+    ]},
+  ]},
+  { id: "manger", title: "Pour manger", cats: [
+    { name: "Tapas du Black Cat", note: "à partager", items: [
+      { name: "Frites maison", desc: "", price: "4 €" },
+      { name: "Frites maison au cheddar", desc: "", price: "6 €" },
+      { name: "Houmous", desc: "", price: "6 €" },
+      { name: "Caponata d'aubergines", desc: "", price: "6 €" },
+      { name: "Tapenade d'olives vertes", desc: "Câpres et cornichons", price: "6 €" },
+      { name: "Nachos sauce cheddar", desc: "", price: "6 €" },
+      { name: "Pickles croustillants", desc: "Sauce yaourt", price: "7 €" },
+      { name: "Nems de porc", desc: "Sauce thaï", price: "7 €" },
+      { name: "Samossas végétariens", desc: "Sauce yaourt & menthe fraîche", price: "7 €" },
+      { name: "Pélardon rôti", desc: "Miel et thym", price: "7 €" },
+      { name: "Chorizos grillés", desc: "Sauce verte", price: "7 €" },
+      { name: "Burratina", desc: "Pesto", price: "8 €" },
+      { name: "Brochettes de poulet teriyaki (×3)", desc: "", price: "8 €" },
+      { name: "Chipirones à la plancha", desc: "Aïoli combava", price: "8 €" },
+      { name: "Porc katsu", desc: "Sauce miel soja", price: "8 €" },
+      { name: "Popcorn de poulet", desc: "Spicy mayo", price: "8 €" },
+      { name: "Brochettes de bœuf teriyaki (×3)", desc: "", price: "9 €" },
+      { name: "Nachos al pastor", desc: "Effiloché de porc & sauce cheddar", price: "10 €" },
+      { name: "Tataki de canard", desc: "", price: "10 €" },
+      { name: "Camembert rôti au pesto", desc: "", price: "12 €" },
+      { name: "Duo de brochettes teriyaki (×6)", desc: "", price: "16 €" },
+    ]},
+    { name: "Burgers", note: "", items: [
+      { name: "Cheese", desc: "Steak 100 g, ketchup, cheddar, pickles", price: "12,90 €" },
+      { name: "Chick'n'Sweet", desc: "Cream cheese, poulet croustillant, tomate, confiture d'abricot, pickles de chou", price: "14 €" },
+      { name: "Black Cat's", desc: "Steak 150 g, lard, burrata, pesto, roquette, oignons rouges", price: "16 €" },
+      { name: "Cajun Burger", desc: "Steak 150 g, chorizo, chèvre, mayo cajun, miel, roquette", price: "16 €" },
+    ]},
+    { name: "Plats", note: "", items: [
+      { name: "Croque truffé", desc: "Pain de campagne, jambon, comté, crème de truffe, mayo truffée, salade, frites", price: "12,90 €" },
+      { name: "Wrap végétarien", desc: "Galette, sauce yaourt aux herbes, houmous, pickles de chou, concombre, salade, tomate, falafel — salade ou frites", price: "13 €" },
+      { name: "Fish and Chips", desc: "Cabillaud pané au panko et sésame, sauce thaï", price: "15,90 €" },
+      { name: "Bavette à l'échalote", desc: "Frites, salade", price: "17 €" },
+    ]},
+    { name: "Desserts", note: "suppl. coco 0,50 € · boule vanille 1,50 € · chantilly 1 €", items: [
+      { name: "Café gourmand", desc: "", price: "5,90 €" },
+      { name: "Fondant au chocolat", desc: "", price: "5,90 €" },
+      { name: "Brioche perdue", desc: "Nutella ou érable", price: "5,90 €" },
+      { name: "Crème brûlée", desc: "", price: "5,90 €" },
+      { name: "Crêpe sucre", desc: "", price: "3 €" },
+      { name: "Crêpe sucre-citron · miel · confiture · chocolat", desc: "Confiture fraise ou abricot", price: "3,50 €" },
+      { name: "Crêpe sirop d'érable · Nutella · caramel beurre salé", desc: "", price: "4 €" },
+    ]},
+  ]},
+];

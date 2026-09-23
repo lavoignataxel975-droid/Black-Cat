@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Black Cat — Aperçu iPhone</title>
+<style>
+  :root{
+    --bg1:#1a1717; --bg2:#0c0b0b; --accent:#b3131b; --cream:#e8e0cc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(179,19,27,.18), transparent 60%),
+      linear-gradient(160deg, var(--bg1), var(--bg2));
+    color:var(--cream);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    display:flex;flex-direction:column;align-items:center;
+    padding:28px 16px 48px;
+    gap:22px;
+  }
+
+  header{text-align:center;}
+  header h1{
+    font-size:clamp(22px,3vw,32px);letter-spacing:.28em;font-weight:800;
+  }
+  header p{margin-top:6px;color:rgba(239,231,210,.55);font-size:13px;letter-spacing:.05em;}
+
+  /* Barre de contrôle */
+  .toolbar{
+    display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;
+    background:rgba(239,231,210,.06);
+    border:1px solid rgba(239,231,210,.14);
+    padding:8px 10px;border-radius:14px;backdrop-filter:blur(6px);
+  }
+  .toolbar label{font-size:12px;color:rgba(239,231,210,.6);margin-right:2px;}
+  .toolbar select,.toolbar button{
+    background:rgba(12,11,10,.6);color:var(--cream);
+    border:1px solid rgba(239,231,210,.2);
+    border-radius:9px;padding:7px 12px;font-size:13px;cursor:pointer;
+    font-family:inherit;transition:.15s;
+  }
+  .toolbar select:hover,.toolbar button:hover{border-color:var(--accent);}
+  .toolbar button.active{background:var(--accent);border-color:var(--accent);color:#e8e0cc;font-weight:700;}
+
+  /* ===== iPhone ===== */
+  .stage{display:flex;justify-content:center;align-items:flex-start;width:100%;}
+  .device{
+    position:relative;
+    width:var(--w,390px);
+    height:var(--h,844px);
+    background:#000;
+    border-radius:56px;
+    padding:14px;
+    box-shadow:
+      0 0 0 2px #4a4a4d,
+      0 0 0 13px #1b1b1d,
+      0 0 0 15px #2c2c2e,
+      0 40px 90px rgba(0,0,0,.6);
+    transition:width .25s ease,height .25s ease;
+  }
+  /* boutons latéraux */
+  .device::before,.device::after{
+    content:"";position:absolute;background:#2c2c2e;border-radius:3px;
+  }
+  .device::before{left:-17px;top:150px;width:4px;height:64px;
+    box-shadow:0 -84px 0 #2c2c2e,0 84px 0 #2c2c2e;}
+  .device::after{right:-17px;top:190px;width:4px;height:96px;}
+
+  .screen{
+    position:relative;width:100%;height:100%;
+    border-radius:44px;overflow:hidden;background:#000;
+  }
+  /* Dynamic Island */
+  .island{
+    position:absolute;top:11px;left:50%;transform:translateX(-50%);
+    width:120px;height:34px;background:#000;border-radius:20px;z-index:20;
+    pointer-events:none;
+  }
+  .screen iframe{
+    position:absolute;left:0;right:0;bottom:0;top:47px;width:100%;height:calc(100% - 47px);border:0;background:#0c0b0b;
+  }
+
+  .hint{color:rgba(239,231,210,.4);font-size:12px;text-align:center;max-width:420px;line-height:1.5;}
+  a.plain{color:var(--accent);text-decoration:none;}
+</style>
+</head>
+<body>
+  <header>
+    <h1>THE BLACK CAT</h1>
+    <p>Aperçu mobile — présentation client</p>
+  </header>
+
+  <div class="toolbar">
+    <label>Page :</label>
+    <select id="page">
+      <option value="index.html">Accueil</option>
+      <option value="le-bar.html">Le Bar</option>
+      <option value="carte.html">La Carte</option>
+      <option value="evenement.html">Événement</option>
+      <option value="reserver.html">Réserver</option>
+    </select>
+    <label style="margin-left:8px;">Appareil :</label>
+    <button data-w="390" data-h="844" class="active">iPhone 15</button>
+    <button data-w="430" data-h="932">15 Pro Max</button>
+    <button data-w="375" data-h="812">iPhone SE/mini</button>
+    <button id="reload">↻ Rafraîchir</button>
+  </div>
+
+  <div class="stage">
+    <div class="device" id="device" style="--w:390px;--h:844px;">
+      <div class="screen">
+        <div class="island"></div>
+        <iframe id="frame" src="index.html" title="Aperçu The Black Cat"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint">
+    Utilisez le menu déroulant pour changer de page, et les boutons pour tester différentes tailles d'iPhone.
+    <br>Site en direct depuis <a class="plain" href="index.html">votre version locale</a>.
+  </p>
+
+<script>
+  const frame  = document.getElementById('frame');
+  const pageSel= document.getElementById('page');
+  const device = document.getElementById('device');
+  const reload = document.getElementById('reload');
+
+  pageSel.addEventListener('change', () => { frame.src = pageSel.value; });
+  reload.addEventListener('click', () => { frame.src = frame.src; });
+
+  document.querySelectorAll('.toolbar button[data-w]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.toolbar button[data-w]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      device.style.setProperty('--w', btn.dataset.w + 'px');
+      device.style.setProperty('--h', btn.dataset.h + 'px');
+    });
+  });
+</script>
+</body>
+</html>

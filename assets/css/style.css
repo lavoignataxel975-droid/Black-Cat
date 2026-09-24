@@ -142,7 +142,10 @@ button { font: inherit; color: inherit; }
   .site-header__actions { gap: 8px; }
   .pill { padding: 9px 14px 7px; font-size: 15px; }
 }
-@media (max-width: 340px) {
+/* Téléphone : l'en-tête se limite au logo et au menu.
+   « Réserver » reste accessible depuis le menu, le pied de page
+   et le bouton de chaque page. */
+@media (max-width: 720px) {
   .pill--book { display: none; }
 }
 
@@ -769,6 +772,65 @@ button { font: inherit; color: inherit; }
 @media (max-width: 800px) {
   .event-hero { grid-template-columns: 1fr; }
   .event-hero__date { border-right: 0; border-bottom: 1px solid var(--c2-16); }
+}
+
+/* ==========================================================================
+   Responsive — téléphone & tablette
+   Complète les points de rupture existants. Ces règles ne s'appliquent qu'aux
+   largeurs et aux appareils concernés : l'affichage bureau est inchangé.
+   ========================================================================== */
+
+/* Un nom d'article très long ne doit jamais écraser le prix. */
+.item__price { flex: none; }
+
+/* --- Tablette : 721 → 1100 px (iPad portrait et paysage) ---------------- */
+@media (min-width: 721px) and (max-width: 1100px) {
+  /* Le décalage de la galerie creusait un vide en bas de colonne. */
+  .gallery__col--offset { padding-top: clamp(0px, 8vw, 110px); }
+
+  /* Deux colonnes larges valent mieux que trois colonnes étroites. */
+  .site-footer { padding: 56px 32px 28px; }
+  .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 34px 28px; }
+  .site-footer__col--logo { grid-column: 1 / -1; }
+
+  /* Le bloc « prochaine date » est trop à l'étroit sur deux colonnes ici. */
+  .event-hero { grid-template-columns: 1fr; }
+  .event-hero__date { border-right: 0; border-bottom: 1px solid var(--c2-16); }
+
+  /* Le formulaire respire mieux sur une colonne à cette largeur. */
+  .form__row { gap: 18px; }
+}
+
+/* --- Téléphone en paysage : c'est la hauteur qui contraint -------------- */
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero__cat { height: clamp(110px, 30svh, 190px); bottom: 46%; }
+  .hero__text { top: 54%; }
+  .hero__title { font-size: clamp(36px, 8vw, 96px); }
+  .hero__tagline { margin-top: 10px; font-size: clamp(13px, 1.4vw, 18px); letter-spacing: 0.24em; }
+  .panel__title { font-size: clamp(42px, 8vw, 110px); }
+  .panel--events .panel__title { font-size: clamp(38px, 7.5vw, 104px); }
+  .panel__sub { margin-top: 14px; }
+  .panel__hint { top: 14px; }
+  .menu-links { gap: 0; padding-top: calc(var(--hh) + 6px); }
+  .menu-links a { font-size: clamp(24px, 5.5vh, 46px); }
+  .events-page { padding-block: 30px; }
+  .book-page, .menu-page { padding-top: 48px; }
+}
+
+/* --- Cibles tactiles : 44 px minimum sur appareil sans souris ----------- */
+@media (hover: none) and (pointer: coarse) {
+  .pill { min-height: 44px; }
+  .btn-round { padding: 14px 26px; }
+  .site-footer__col a { padding-block: 3px; }
+  .site-footer__bottom { gap: 16px 24px; }
+  .site-footer__bottom a { padding-block: 5px; }
+}
+
+/* --- Très petits téléphones -------------------------------------------- */
+@media (max-width: 360px) {
+  .hero__title { font-size: clamp(36px, 12.5vw, 58px); }
+  .event-hero__cta { gap: 10px; }
+  .cat__name { font-size: 26px; }
 }
 
 /* ==========================================================================

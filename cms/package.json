@@ -1,0 +1,19 @@
+{
+  "name": "sgt",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @sgt/cms",
+    "build": "npm run build -w @sgt/cms",
+    "seed": "npm run seed -w @sgt/cms",
+    "test": "npm test -w @sgt/cms",
+    "typecheck": "npm run typecheck -w @sgt/cms"
+  },
+  "allowScripts": {
+    "esbuild@0.18.20": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true
+  }
+}

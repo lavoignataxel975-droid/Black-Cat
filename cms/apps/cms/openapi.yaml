@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: CMS SGT — API publique de lecture
+  version: 1.0.0
+  description: |
+    Contenu publié d'un client, destiné à ses sites. Seuls les contenus publiés et non masqués
+    sont exposés ; les contenus datés (événements) passés sont exclus automatiquement.
+    Les appels depuis un navigateur ne sont acceptés que depuis les origines déclarées du client.
+servers:
+  - url: http://localhost:3100
+security:
+  - readKey: []
+paths:
+  /api/v1/content/{type}:
+    get:
+      summary: Liste le contenu publié d'un type
+      parameters:
+        - name: type
+          in: path
+          required: true
+          description: Clé du type de contenu (ex. `produit`, `evenement`).
+          schema: { type: string }
+        - name: categorie
+          in: query
+          description: Filtre sur le champ filtre du type (produits uniquement).
+          schema: { type: string, enum: [vins, bieres, spiritueux, epicerie] }
+        - name: type
+          in: query
+          description: Couleur (vins uniquement).
+          schema: { type: string, enum: [rouge, blanc, rose, effervescent, doux] }
+        - name: region
+          in: query
+          description: Région (vins uniquement). Valeurs et libellés dans /api/v1/schema/produit.
+          schema: { type: string }
+        - name: style
+          in: query
+          description: Style de bière.
+          schema: { type: string }
+        - name: type_spiritueux
+          in: query
+          description: Type de spiritueux (whisky, rhum, gin…).
+          schema: { type: string }
+        - name: rayon
+          in: query
+          description: Rayon de l'épicerie fine.
+          schema: { type: string }
+        - name: nouveaute
+          in: query
+          description: Filtre sur le champ mis en avant du type (produits uniquement).
+          schema: { type: boolean }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+        - name: offset
+          in: query
+          schema: { type: integer, minimum: 0, default: 0 }
+      responses:
+        "200":
+          description: Contenu publié, dans l'ordre d'affichage (ou par date de début pour les événements).
+          headers:
+            ETag: { schema: { type: string } }
+            Cache-Control: { schema: { type: string } }
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/List" }
+        "304": { description: Inchangé depuis l'ETag fourni dans If-None-Match. }
+        "401":
+          description: Clé absente, invalide ou révoquée.
+          content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+        "403":
+          description: Origine du navigateur non autorisée pour ce client.
+          content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+        "404":
+          description: Type de contenu inconnu pour ce client.
+          content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } }
+  /api/v1/schema/{type}:
+    get:
+      summary: Décrit les filtres d'un type de contenu (libellés, valeurs, catégories concernées)
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Filtres du type.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key: { type: string }
+                  labelSingular: { type: string }
+                  labelPlural: { type: string }
+                  filters:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name: { type: string, description: Nom du paramètre de filtre. }
+                        label: { type: string }
+                        main: { type: boolean, description: Filtre principal (la catégorie). }
+                        showIf:
+                          type: [object, "null"]
+                          description: Ne s'applique que si `field` a l'une des valeurs `in`.
+                          properties:
+                            field: { type: string }
+                            in: { type: array, items: { type: string } }
+                        options:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              value: { type: string }
+                              label: { type: string }
+        "401":
+          description: Clé absente, invalide ou révoquée.
+components:
+  securitySchemes:
+    readKey:
+      type: http
+      scheme: bearer
+      description: Clé de lecture du client (`sgt_pk_…`), créée dans l'espace Agence.
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string, description: Message en français. }
+    Image:
+      type: [object, "null"]
+      properties:
+        url: { type: string, format: uri, description: "Version grande (1600 px max, WebP)." }
+        thumbnailUrl: { type: string, format: uri, description: "Vignette (480 px max, WebP)." }
+    List:
+      type: object
+      required: [total, limit, offset, items]
+      properties:
+        total: { type: integer }
+        limit: { type: integer }
+        offset: { type: integer }
+        items:
+          type: array
+          items:
+            type: object
+            required: [id, type, data]
+            properties:
+              id: { type: string, format: uuid }
+              type: { type: string }
+              publishedAt: { type: [string, "null"], format: date-time }
+              data:
+                oneOf:
+                  - $ref: "#/components/schemas/Produit"
+                  - $ref: "#/components/schemas/Evenement"
+    Produit:
+      type: object
+      required: [nom, categorie, prix]
+      properties:
+        nom: { type: string }
+        producteur: { type: string }
+        categorie: { type: string, enum: [vins, bieres, spiritueux, epicerie] }
+        type: { type: string, enum: [rouge, blanc, rose, effervescent, doux], description: Couleur (vins). }
+        region: { type: string, description: Région (vins). }
+        style: { type: string, description: Style (bières). }
+        type_spiritueux: { type: string, description: Type (spiritueux). }
+        rayon: { type: string, description: Rayon (épicerie fine). }
+        millesime: { type: integer }
+        prix: { type: number, description: Prix en euros. }
+        description: { type: string }
+        photo: { $ref: "#/components/schemas/Image" }
+        nouveaute: { type: boolean }
+    Evenement:
+      type: object
+      required: [titre, debut]
+      properties:
+        titre: { type: string }
+        debut: { type: string, format: date-time }
+        fin: { type: string, format: date-time }
+        lieu: { type: string }
+        description: { type: string }
+        infos: { type: string }
+        lien_inscription: { type: string, format: uri }
+        image: { $ref: "#/components/schemas/Image" }

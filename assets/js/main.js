@@ -46,10 +46,14 @@
     ).join('');
   }
 
-  /* ---------- La Carte : accordéon (une seule catégorie ouverte) ---------- */
+  /* ---------- La Carte : accordéon (une seule catégorie ouverte) ----------
+     Le rendu est une fonction : le CMS (assets/js/cms.js) peut le rejouer avec
+     le contenu publié. Sans CMS, il tourne une fois avec le contenu de data.js. */
   const menuRoot = document.querySelector('[data-menu-root]');
-  if (menuRoot && window.BC_MENU) {
-    menuRoot.innerHTML = window.BC_MENU.map((g, gi) => `
+
+  function renderMenu(menu) {
+    if (!menuRoot || !menu) return;
+    menuRoot.innerHTML = menu.map((g, gi) => `
       <section class="menu-group" id="${esc(g.id)}" aria-labelledby="grp-${gi}">
         <h2 class="menu-group__title t-title" id="grp-${gi}"><span>${esc(g.title)}</span><span class="rule" aria-hidden="true"></span></h2>
         ${g.cats.map((c, ci) => {
@@ -102,9 +106,13 @@
     });
   }
 
+  renderMenu(window.BC_MENU);
+
   /* ---------- Événements ---------- */
   const eventsRoot = document.querySelector('[data-events-root]');
-  if (eventsRoot && window.BC_EVENTS) {
+
+  function renderEvents(events) {
+    if (!eventsRoot || !events) return;
     const heroRoot = document.querySelector('[data-event-hero]');
     const labelRoot = document.querySelector('[data-events-label]');
 
@@ -127,7 +135,7 @@
     minuit.setHours(0, 0, 0, 0);
 
     // Index du premier événement encore à venir (sinon aucun : on garde la liste telle quelle).
-    const iNext = window.BC_EVENTS.findIndex((ev) => {
+    const iNext = events.findIndex((ev) => {
       const d = dateDe(ev);
       return d && new Date(d.getFullYear(), d.getMonth(), d.getDate()) >= minuit;
     });
@@ -147,7 +155,7 @@
       </article>`;
 
     if (heroRoot && iNext >= 0) {
-      const ev = window.BC_EVENTS[iNext];
+      const ev = events[iNext];
       const d = dateDe(ev);
       const jours = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - minuit) / 86400000);
       const accroche = jours === 0 ? "Aujourd'hui" : jours === 1 ? 'Demain' : 'Prochaine date';
@@ -170,13 +178,19 @@
     }
 
     // Le rail garde toutes les autres dates, dans l'ordre d'origine.
-    const reste = window.BC_EVENTS.filter((_, i) => i !== iNext || iNext < 0);
+    const reste = events.filter((_, i) => i !== iNext || iNext < 0);
     eventsRoot.innerHTML = reste.map(carte).join('');
 
     if (labelRoot) labelRoot.hidden = !(heroRoot && iNext >= 0 && reste.length);
     const hint = document.querySelector('.events-hint');
     if (hint) hint.hidden = reste.length < 2;
   }
+
+  renderEvents(window.BC_EVENTS);
+
+  /* Le CMS (assets/js/cms.js) rejoue ces rendus avec le contenu publié.
+     S'il ne répond pas, ce qui vient d'être affiché depuis data.js reste en place. */
+  window.BC_RENDER = { menu: renderMenu, events: renderEvents };
 
   /* ---------- Réserver : lien externe + formulaire mailto ---------- */
   document.querySelectorAll('[data-booking-link]').forEach((a) => {
